@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+    <title>Hello Thư =))))</title>
+</head>
+<style>
+    h2 {
+        text-align: center;
+
+    }
+
+    div {
+
+        background-color: bisque;
+    }
+
+    table {
+        text-align: center;
+        background-color: burlywood;
+    }
+
+    body {
+        text-align: center;
+        background-color: antiquewhite;
+    }
+
+    .done {
+        background-color: brown;
+    }
+
+    .hightlight {
+        background-color: rgb(23, 212, 23);
+    }
+</style>
+<h2 class="text-primary">To Do List</h2>
+
+<body>
+    <div id="mydiv" class="header">
+        <h2 style="margin: 20px">Viết việc cần làm vào đây nhá =))</h2>
+        <input type="text" id="input">
+        <button onclick="newAct()" class="addBtn">Add</button>
+    </div>
+
+    <table id="table" class="table table-bordered table-striped" style="width: 50%;">
+        <thead>
+            <tr>
+                <th>Num</th>
+
+                <th>Activities</th>
+
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody id="tbbody"></tbody>
+
+    </table>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
+        integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"
+        integrity="sha384-mQ93GR66B00ZXjt0YO5KlohRA5SY2XofN4zfuZxLkoj1gXtW8ANNCe9d5Y3eG5eD"
+        crossorigin="anonymous"></script>
+
+    <script src="https://code.jquery.com/jquery-3.6.3.js"
+        integrity="sha256-nQLuAZGRRcILA+6dMBOvcRh5Pe310sBpanc6+QBmyVM=" crossorigin="anonymous"></script>
+
+</body>
+<script>
+    var data = [];
+    var data_done = [];
+    function newAct() {
+        var act = document.getElementById("input").value;
+        if (act == '') {
+            alert("chua dien hoat dong");
+        } else {
+            data.push(act);
+            render();
+            document.getElementById("input").value = '';
+        }
+    }
+
+    function doneAct(x) {
+        var table = document.getElementById("tbbody");
+        var rows = table.getElementsByTagName("tr");
+        for (let i = 0; i < rows.length; i++) {
+
+            if (i == x) {
+                rows[i].classList.replace("done", "hightlight");
+                if (!data_done.includes(rows[i])) {
+                    data_done.push(i);
+                }
+            }
+        }
+    }
+
+
+    function deleteAct(x) {
+        for (let i = 0; i < data.length; i++) {
+            if (i == x) {
+                data.splice(i, 1);
+                render();
+            }
+        }
+    }
+
+
+    function render() {
+        table = ``;
+        let class_name = 'done';
+        for (let i = 0; i < data.length; i++) {
+            if (data_done && data_done.length > 0) {
+                for (let j = 0; j < data_done.length; j++) {
+                    // C1
+                    if (data_done[j] === i) {
+                        class_name = "hightlight";
+                        break;
+                    } else {
+                        class_name = "done";
+                    }
+                    // C2
+                }
+            }
+            table += `<tr class="${class_name}"> 
+                <th>${i + 1}</th>               
+                <th>${data[i]}</th>    
+                <th><button id="checked" onclick="doneAct(${i})">Done</button><button onclick="deleteAct(${i})">Delete</button></th>
+            </tr>`
+        }
+        document.getElementById('tbbody').innerHTML = table
+    }
+
+</script>
+
+</html>
